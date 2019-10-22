@@ -1,6 +1,8 @@
 public class Spielfeld{
-    public public static void main(String args[]) {
-        
+    public static void main(String args[]) {
+        String hello = "hello Max, ich glaub ich hab's";
+
+        int x = 5;
     }
     
 }
