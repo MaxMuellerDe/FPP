@@ -5,7 +5,7 @@ public class Spielfeld{
         int x = 5;
 
         int y = x;
-        Systen.out.println(hello);
+        System.out.println(hello);
     }
     
 }
