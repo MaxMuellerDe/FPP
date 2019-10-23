@@ -1,11 +1,11 @@
-public class Spielfeld{
+public class Spielfeld {
     public static void main(String args[]) {
-        String hello = "hello Max, ich glaub ich hab's";
+        double size;
 
-        int x = 5;
+        public abstract String feld{
+            
+        }
 
-        int y = x;
-        System.out.println(hello);
-    }
-    
-}
+        
+    }//end main
+}//end class
