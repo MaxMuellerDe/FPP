@@ -1,9 +1,19 @@
 public abstract class Spielfeld {
 
-    int height;
-    int length;
+
+    public int height;
+    public int length;
+
     public abstract void draw();
 
+
+    //Konstruktor fuer Spielfeld
+    public Spielfeld(int height, int length) {
+        this.height=height;
+        this.length=length;
+    }
+
+    //getter und setter fuer length und height
     public int getHeight() {
         return height;
     }

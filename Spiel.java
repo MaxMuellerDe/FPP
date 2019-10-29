@@ -3,19 +3,49 @@ public abstract class Spiel {
 
     Scanner scan = new Scanner(System.in);
 
-    System.out.println("Wie ist dein Name?");
-    //name annehmen
-    System.out.println("Multiplayer oder gegen CPU? (1 für Multiplayer, 0 für CPU)");
-    Spieler spieler1 = new Spieler(scan.nextLine(), scan.nextInt());
+    //zustandsvariable spielfeld
+    String[][] spielfeld;
+    //zustandsvariable spieler
+    //nur eine variable spieler
+    Spieler spieler1;
+    Spieler spieler2;
 
 
-    //1 oder 0
-    System.out.println("Spieler 2, wie ist dein Name?");
-    Spieler spieler2 = new Spieler(scan.nextLine(), scan.nextInt());
+
+    //getter und setter fuer spielfeld
+    public String[][] getSpielfeld() {
+        return spielfeld;
+    }
+
+    public void setSpielfeld(String[][] spielfeld) {
+        this.spielfeld = spielfeld;
+    }
+
+
+    //getter und setter fuer spieler
+    public Spieler getSpieler1() {
+        return spieler1;
+    }
+
+    public void setSpieler1(Spieler spieler1) {
+        this.spieler1 = spieler1;
+    }
+
+    public Spieler getSpieler2() {
+        return spieler2;
+    }
+
+    public void setSpieler2(Spieler spieler2) {
+        this.spieler2 = spieler2;
+    }
 
     public abstract void spielzug();
     public abstract int durchgang();
 
-    //spielfeld
-
 }
+
+
+
+
+
+
