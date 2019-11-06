@@ -1,10 +1,10 @@
 import java.util.*;
-public abstract class Spiel {
+public abstract class Spiel{
 
     Scanner scan = new Scanner(System.in);
 
     //zustandsvariable spielfeld
-    String[][] spielfeld;
+    public static String[][] spielfeld;
     //zustandsvariable spieler
     //nur eine variable spieler
     Spieler spieler1;

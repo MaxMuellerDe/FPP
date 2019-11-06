@@ -3,14 +3,20 @@ public abstract class Spielfeld {
 
     public int height;
     public int length;
+    public int feld[][];
 
     public abstract void draw();
 
+    public Spielfeld() {
+    }
 
-    //Konstruktor fuer Spielfeld
-    public Spielfeld(int height, int length) {
-        this.height=height;
-        this.length=length;
+    public Spielfeld(int height, int length){
+        feld = new int[height][length];
+        for(int i=0; i < length; i++){ //feld.length?
+            for (int j = 0; j < feld[i].length; j++){
+                feld[i][j]=0;
+            }
+        }
     }
 
     //getter und setter fuer length und height
@@ -31,4 +37,4 @@ public abstract class Spielfeld {
     }
 }
 
-//Klasse fertig
+

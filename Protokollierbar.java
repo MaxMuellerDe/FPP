@@ -1,15 +1,14 @@
 public interface Protokollierbar<T> {
 
-     class Item{
-         T value;
-         Item next;
 
-         Item
 
-    }
+    //abstrakte Methoden
+    void addSpielzug();
+    void removeSpielzug();
 
 
 
 
 
-}
+
+}//end interface
