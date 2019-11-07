@@ -1,16 +1,10 @@
 public class Spieler{
 
 
-    static String name;
+    String name;
     boolean istMensch;
 
-
-
-
     //Konstruktor Spieler
-    public Spieler() {
-
-    }
     public Spieler(String name, boolean istMensch) {
         this.name = name;
         this.istMensch = istMensch;

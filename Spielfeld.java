@@ -1,11 +1,11 @@
-public abstract class Spielfeld {
+public class Spielfeld {
 
 
     public int height;
     public int length;
     public String feld[][];
 
-    public abstract void draw();
+    //public abstract void draw();
 
 
     public Spielfeld(int height, int length){

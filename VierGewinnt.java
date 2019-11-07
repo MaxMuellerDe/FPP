@@ -10,24 +10,15 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
 
     public void draw() {
-        for(int i = 0; i < length; i++) {
-
-            for(int j = 0; j < height; j++) {
+        // for (String[] strings : spielfeld) {
+        //    System.out.println(Arrays.toString(strings));
+        //}
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < length; j++) {
                 System.out.print(" | ");
-                switch (spielfeld[i][j]) {
-                    case " ":
-                        System.out.print(" ");
-                        break;
-                    case "1":                   //cases definieren
-                        System.out.print("X");
-                        break;
-                    case "2":
-                        System.out.print("O");
-                        break;
-                }
+                System.out.print(spielfeld[i][j]);
             }
-            System.out.print(" |");
-            System.out.println();
+            System.out.println(" |");
         }
         System.out.println(" -----------------------------");
     }
@@ -35,36 +26,25 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
 
     //Gewinnbedingungen
-    boolean won;
-    int counterH, counterV, counterS1, counterS2;
-    public boolean gewonnen(String name){
-        won = false;
-
-        for(int i=0; i < spielfeld.length; i++){
-            for(int j=0; j < spielfeld[i].length; j++){
-                if(horizontal(i,j)|| vertikal(i,j)|| schraeg1(i,j)|| schraeg2(i,j)){
-                    won = true;
-                }
-                else{
-                    return won;
-                }
-            }
-        }
-        return won;
+    private boolean won;
+    private int counterH, counterV, counterS1, counterS2;
+    private void gewonnen(int i, int j){
+        won = horizontal(i, j) || vertikal(i, j) || schraeg1(i, j) || schraeg2(i, j);
     }
 
 
     //Test ob horizontal gewonnen
-    public boolean horizontal(int zeile, int spalte){
-        boolean wert = false;
-
+    private boolean horizontal(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(spielfeld[spalte].length > spalte+i && spalte+i >= 0 && spielfeld[zeile][spalte] == spielfeld[zeile][spalte+i] && spielfeld[zeile][spalte+i] != " "){
+            if (height > zeile+i && zeile+i >= 0 && length > spalte+i && spalte+i >= 0) {
+                if (spielfeld[zeile][spalte].equals(spielfeld[zeile][spalte + i]) && !spielfeld[zeile][spalte + i].equals(" ")) {
 
-                counterH++;
+                    counterH++;
 
-                if(counterH==4){ //eher 3?
-                    wert = true;
+                    if (counterH == 4) {
+                        return true;
+                    }
+
                 }
             }
 
@@ -73,21 +53,21 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
 
         }
-        return wert;
+        counterH=0;
+        return false;
     }
 
     //Test ob vertikal gewonnen
-    public boolean vertikal(int zeile, int spalte){
-        boolean wert = false;
-
+    private boolean vertikal(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(spielfeld[zeile].length > zeile+i && zeile+i >= 0 && spielfeld[spalte].length > spalte+i && spalte+i >= 0
-                    && spielfeld[zeile][spalte] == spielfeld[zeile+i][spalte]&& spielfeld[zeile+i][spalte] != " "){
+            if(height > zeile+i && zeile+i >= 0 && length > spalte+i && spalte+i >= 0) {
+                if(spielfeld[zeile][spalte].equals(spielfeld[zeile + i][spalte]) && !spielfeld[zeile + i][spalte].equals(" ")){
 
-                counterV++;
+                    counterV++;
 
-                if(counterV==4){
-                    wert = true;
+                    if(counterV==4){
+                       return true;
+                    }
                 }
             }
 
@@ -96,40 +76,43 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
 
         }
-        return wert;
+        counterV=0;
+        return false;
     }
 
     //Test ob schraeg gewonnen
-    public boolean schraeg1(int zeile, int spalte){
-        boolean wert = false;
-
+    //unten links nach oben rechts
+    private boolean schraeg1(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(spielfeld[zeile].length > zeile+i && zeile+i >= 0 && spielfeld[zeile][spalte] == spielfeld[zeile+i][spalte+i]&& spielfeld[zeile+i][spalte+i] != " "){
+            if(height > zeile-i & zeile-i >= 0 & length > spalte+i & spalte+i >= 0) {
+                if (spielfeld[zeile][spalte].equals(spielfeld[zeile - i][spalte + i])) {
+                    //  if(height > zeile-i && zeile-i >= 0 && spielfeld[zeile][spalte].equals(spielfeld[zeile - i][spalte + i]) && !spielfeld[zeile - i][spalte + i].equals(" ")){
 
-                counterS1++;
+                    counterS1++;
 
-                if(counterS1==4){
-                    wert = true;
+                    if (counterS1 == 4) {
+                        return true;
+                    }
                 }
-            }
-            else{
+            } else {
                 counterS1=0;
             }
 
         }
-        return wert;
+        counterS1=0;
+        return false;
     }
-
-    public boolean schraeg2(int zeile, int spalte){
-        boolean wert = false;
-
+    //oben links nach unten rechts
+    private boolean schraeg2(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(spielfeld[zeile].length > zeile-i && zeile-i >= 0 && spielfeld[zeile][spalte] == spielfeld[zeile-i][spalte+i]&& spielfeld[zeile-i][spalte+i] != " "){
-
-                counterS2++;
-
-                if(counterS2==4){
-                    wert = true;
+            if(height > zeile+i & zeile+i >= 0 & length > spalte+i & spalte+i >= 0){
+                 if(spielfeld[zeile][spalte].equals(spielfeld[zeile + i][spalte + i])){
+                    //if (!spielfeld[zeile + i][spalte + i].equals(" ")){
+                    counterS2++;
+                    if(counterS2==4){
+                        return true;
+                    }
+                    //}
                 }
             }
             else{
@@ -137,13 +120,14 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
 
         }
-        return wert;
+        counterS2=0;
+        return false;
     }
 
 
-    int height = 0, length = 0;
+    private int height = 6, length = 7;
     //Spielstart
-    public void start() {
+    void start() {
         System.out.println("Willkommen zu VierGewinnt");
 
         //Spielernamen und -menschlichkeit abfragen
@@ -154,7 +138,7 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
         boolean again = true;
         while (again) {
             System.out.println("Möchtest du gegen einen Computer oder gegen einen anderen Spieler spielen? 0 für COMP, 1 für Spieler");
-            int spielertyp = scan.nextInt();
+            int spielertyp = Integer.parseInt(scan.nextLine());
             if (spielertyp == 0) {
                 spieler2 = new Spieler("COMPUTER", false);
                 again = false;
@@ -168,23 +152,37 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
             gamerunning = true;
             spielfeld = new String[height][length];
-            spiellaeuft(spieler2);
+            for (int i = 0; i < spielfeld.length; i++) {
+                for(int j = 0; j < spielfeld[i].length; j++){
+                    spielfeld[i][j] = " ";
+                }
+            }
+            draw();
+            spiellaeuft(spieler1);
         }
 
     }
 
     public void spiellaeuft(Spieler aktuellerSpieler){
         while(gamerunning){
+            System.out.println("Spieler " + aktuellerSpieler.getName() + " ist dran:");
             if(aktuellerSpieler.equals(spieler1)){
-                spielzug(spieler2);
-                aktuellerSpieler=spieler2;
-            }
-            else{
                 spielzug(spieler1);
-                aktuellerSpieler=spieler1;
+                if(won){
+                    gamerunning=false;
+                    System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du hast gewonnen!");
+                } else {
+                    aktuellerSpieler=spieler2;
+                }
             }
-            if(won){
-                gamerunning=false;
+            else {
+                spielzug(spieler2);
+                if(won){
+                    gamerunning=false;
+                    System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du hast gewonnen!");
+                } else {
+                    aktuellerSpieler = spieler1;
+                }
             }
         }
     }
@@ -194,22 +192,26 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
         int x = spielfeld.length-1; //letzte Zeile wird zuerst betrachtet
 
         while(x>=0){
-            if (spielfeld[x][spalte] == " "){  //wenn das Feld leer ist, kann man Spielstein setzen
+            if (spielfeld[x][spalte].equals(" ")){  //wenn das Feld leer ist, kann man Spielstein setzen
                 if (aktuellerSpieler.equals(spieler1)) {
-                    spielfeld[x][spalte] = "x";
+                    spielfeld[x][spalte] = "X";
+                    break;
                 }
                 else{
-                    spielfeld[x][spalte] = "o";
+                    spielfeld[x][spalte] = "O";
+                    break;
                 }
             }
             x--;
         }
 
         if (x < 0) {
-
             System.out.println("Diese Spalte ist schon voll."); //andere "falsche" Eingaben auch noch abfangen
+        } else {
+            draw();
+            gewonnen(x, spalte);
         }
-        draw();
+        //gewonnen(aktuellerSpieler);
     }
 
 
@@ -218,8 +220,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     public void spielzug(Spieler aktuellerSpieler) {
         System.out.println("In welche Spalte willst du den Stein setzen?");
         int spalte = scan.nextInt();
-        spielstein(aktuellerSpieler, spalte);
-        }
+        spielstein(aktuellerSpieler, spalte - 1);
+    }
 
 
 
