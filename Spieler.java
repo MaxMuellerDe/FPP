@@ -1,14 +1,16 @@
-import java.util.*;
 public class Spieler{
 
-    Scanner scan = new Scanner(System.in);
 
     static String name;
     boolean istMensch;
 
 
 
+
     //Konstruktor Spieler
+    public Spieler() {
+
+    }
     public Spieler(String name, boolean istMensch) {
         this.name = name;
         this.istMensch = istMensch;

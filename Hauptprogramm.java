@@ -3,9 +3,9 @@ public class Hauptprogramm {
         System.out.println("Welches Spiel moechtest du spielen?");
 
 
-        VierGewinnt spiel = new VierGewinnt();
+        VierGewinnt vierGewinntSpiel = new VierGewinnt();
 
-        spiel.start();
+        vierGewinntSpiel.start();
 
 
 

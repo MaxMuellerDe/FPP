@@ -3,14 +3,12 @@ public abstract class Spiel{
 
     Scanner scan = new Scanner(System.in);
 
-    //zustandsvariable spielfeld
-    public static String[][] spielfeld;
-    //zustandsvariable spieler
-    //nur eine variable spieler
+    //Zustandsvariable Spielfeld
+    public String[][] spielfeld;
+
+    //Zustandsvariable Spieler
     Spieler spieler1;
     Spieler spieler2;
-
-
 
     //getter und setter fuer spielfeld
     public String[][] getSpielfeld() {
@@ -39,8 +37,9 @@ public abstract class Spiel{
         this.spieler2 = spieler2;
     }
 
-    public abstract void spielzug();
+    public abstract void spielzug(Spieler aktuellerSpieler);
     public abstract int durchgang();
+    public abstract void spielstein(Spieler aktuellerSpieler, int spalte);
 
 }
 
