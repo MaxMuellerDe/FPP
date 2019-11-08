@@ -1,9 +1,10 @@
 import java.util.*;
 public class VierGewinnt extends Spiel implements Protokollierbar {
 
-    Scanner scan = new Scanner(System.in);
-    boolean gamerunning;
-    int anzahlDurchgange;
+    private Scanner scan = new Scanner(System.in);
+    private boolean gamerunning;
+    private int anzahlDurchgange;
+    private int height = 6, length = 7;
     //Spiel spiel;
     //VierGewinntSpielfeld feld = new VierGewinntSpielfeld(6, 7);
 
@@ -30,14 +31,14 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     private boolean won;
     private int counterH, counterV, counterS1, counterS2;
     private void gewonnen(int i, int j){
-        won = horizontal(i, j) || vertikal(i, j) || schraeg1(i, j) || schraeg2(i, j);
+        won = horizontal(i,j) || vertikal(i,j) || schraeg1(i,j) || schraeg2(i,j);
     }
 
 
     //Test ob horizontal gewonnen
     private boolean horizontal(int zeile, int spalte){
-        for (int i = -3; i<=3; i++){
-            if (height > zeile+i && zeile+i >= 0 && length > spalte+i && spalte+i >= 0) {
+        for (int i = -3; i<4; i++){
+            if (length > spalte+i && spalte+i >= 0){ //&& ) {height > zeile+i && zeile+i >= 0
                 if (spielfeld[zeile][spalte].equals(spielfeld[zeile][spalte + i]) && !spielfeld[zeile][spalte + i].equals(" ")) {
 
                     counterH++;
@@ -50,18 +51,35 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
                     counterH=0;
                 }
             }
-
-
-
         }
         counterH=0;
         return false;
     }
 
+
+
+//    private boolean horizontal(int x, int y){
+//
+//        boolean returnwert = false;
+//        if(y + 3 < spielfeld[x].length) {
+//            if(spielfeld[x][y].equals(spielfeld[x][y+1]) && spielfeld[x][y+1].equals(spielfeld[x][y+2]) && spielfeld[x][y+2].equals(spielfeld[x][y+3])){
+//                returnwert = true;
+//            }
+//        }
+//        return returnwert;
+//    }
+
+
+
+
+
+
+
+
     //Test ob vertikal gewonnen
     private boolean vertikal(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(height > zeile+i && zeile+i >= 0 && length > spalte+i && spalte+i >= 0) {
+            if(height > zeile+i && zeile+i >= 0){ // && length > spalte+i && spalte+i >= 0) {
                 if(spielfeld[zeile][spalte].equals(spielfeld[zeile + i][spalte]) && !spielfeld[zeile + i][spalte].equals(" ")){
 
                     counterV++;
@@ -72,14 +90,62 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
                     counterV=0;
                 }
             }
-
-
-
         }
-        System.out.println(counterV);
         counterV=0;
         return false;
     }
+
+
+
+
+
+//    private boolean vertikal() {
+//        int counter = 0;
+//        String leer = " ";
+//
+//        for(int spalte = 0; spalte < 7; spalte++) {
+//            for(int reihe = 5; reihe >= 0; reihe--) {
+//                if(!leer.equals(spielfeld[reihe][spalte])) {
+//                    leer = spielfeld[reihe][spalte];
+//                    counter = 1;
+//                } else counter++;
+//
+//                if((counter == 4) && (!leer.equals(" "))) {
+//                    return true;
+//                }
+//            }
+//            counter = 0;
+//            leer = " ";
+//        }
+//        return false;
+//    }
+
+
+
+
+//    private boolean vertikal(int x, int y){
+//
+//        boolean returnwert = false;
+//        if(x + 3 < spielfeld.length) {
+//            if(spielfeld[x][y].equals(spielfeld[x+1][y]) && spielfeld[x+1][y].equals(spielfeld[x+2][y]) && spielfeld[x+2][y].equals(spielfeld[x+3][y])){
+//                returnwert = true;
+//            }
+//        }
+//        return returnwert;
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Test ob schraeg gewonnen
     //unten links nach oben rechts
@@ -126,7 +192,7 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     }
 
 
-    private int height = 6, length = 7;
+
     //Spielstart
     void start() {
         System.out.println("Willkommen zu VierGewinnt");
@@ -161,11 +227,9 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
             draw();
             spiellaeuft(spieler1);
-        //}
-
     }
 
-    public void spiellaeuft(Spieler aktuellerSpieler){
+    private void spiellaeuft(Spieler aktuellerSpieler){
         while(gamerunning){
             System.out.println("Spieler " + aktuellerSpieler.getName() + " ist dran:");
             if(aktuellerSpieler.equals(spieler1)){
@@ -182,7 +246,7 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
                 spielzug(spieler2);
                 if(won){
                     gamerunning=false;
-                    System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du im " + anzahlDurchgange +". Durchgang gewonnen!");
+                    System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du hast im " + anzahlDurchgange +". Durchgang gewonnen!");
                 } else {
                     aktuellerSpieler = spieler1;
                 }
@@ -243,9 +307,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     }
 
     @Override
-    public int durchgang() {
+    public void durchgang() {
         anzahlDurchgange++;
-        return anzahlDurchgange;
     }
 
 

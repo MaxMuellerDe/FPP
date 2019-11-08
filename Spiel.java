@@ -1,10 +1,7 @@
-import java.util.*;
-public abstract class Spiel{
-
-    Scanner scan = new Scanner(System.in);
+public abstract class Spiel {
 
     //Zustandsvariable Spielfeld
-    public String[][] spielfeld;
+    public String[][] spielfeld; //spielfeld
 
     //Zustandsvariable Spieler
     Spieler spieler1;
@@ -38,7 +35,7 @@ public abstract class Spiel{
     }
 
     public abstract void spielzug(Spieler aktuellerSpieler);
-    public abstract int durchgang();
+    public abstract void durchgang();
     public abstract void spielstein(Spieler aktuellerSpieler, int spalte);
 
 }
