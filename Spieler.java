@@ -1,8 +1,8 @@
 public class Spieler{
 
 
-    String name;
-    boolean istMensch;
+    private String name;
+    private boolean istMensch;
 
     //Konstruktor Spieler
     public Spieler(String name, boolean istMensch) {

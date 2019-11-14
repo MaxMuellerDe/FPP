@@ -1,6 +1,6 @@
 import java.util.Scanner;
 public class Hauptprogramm {
-    public static void main(String args[]){
+    public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
 
         VierGewinnt vierGewinntSpiel = new VierGewinnt();
@@ -9,10 +9,16 @@ public class Hauptprogramm {
         System.out.println("Vier Gewinnt: [1], Chomp: [0]");
         System.out.println("Spiel beenden: [beliebige Taste]");
         int playgame = scan.nextInt();
-        if(playgame==1){
+        if(playgame==1){ //VierGewinnt
             vierGewinntSpiel.start(); //das gleiche für chomp, und fehlerabfragung.
         }
-    System.out.println(Protokollierbar.protokoll);
+//        else if(playgame==0){ //Chomp
+//
+//        }
+        else {
+            System.exit(0);
+        }
+    //System.out.println(Protokollierbar.protokoll);
 
     }//end main
 }//end class

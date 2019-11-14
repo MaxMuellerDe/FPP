@@ -4,27 +4,10 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     private Scanner scan = new Scanner(System.in);
     private boolean gamerunning;
     private int anzahlDurchgange;
-    private int height = 6, length = 7;
+    private boolean computerSpielt = false;
     //Spiel spiel;
     //VierGewinntSpielfeld feld = new VierGewinntSpielfeld(6, 7);
-
-
-
-
-    public void draw() {
-        // for (String[] strings : spielfeld) {
-        //    System.out.println(Arrays.toString(strings));
-        //}
-        for(int i = 0; i < height; i++) {
-            for(int j = 0; j < length; j++) {
-                System.out.print(" | ");
-                System.out.print(spielfeld[i][j]);
-            }
-            System.out.println(" |");
-        }
-        System.out.println(" -----------------------------");
-    }
-
+    private Spielfeld feld;
 
 
     //Gewinnbedingungen
@@ -38,8 +21,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     //Test ob horizontal gewonnen
     private boolean horizontal(int zeile, int spalte){
         for (int i = -3; i<4; i++){
-            if (length > spalte+i && spalte+i >= 0){ //&& ) {height > zeile+i && zeile+i >= 0
-                if (spielfeld[zeile][spalte].equals(spielfeld[zeile][spalte + i]) && !spielfeld[zeile][spalte + i].equals(" ")) {
+            if (feld.length > spalte+i && spalte+i >= 0){ //&& ) {height > zeile+i && zeile+i >= 0
+                if (feld.get(zeile,spalte).equals(feld.get(zeile,spalte + i)) && !feld.get(zeile, spalte+i).equals(" ")) {
 
                     counterH++;
 
@@ -79,8 +62,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     //Test ob vertikal gewonnen
     private boolean vertikal(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(height > zeile+i && zeile+i >= 0){ // && length > spalte+i && spalte+i >= 0) {
-                if(spielfeld[zeile][spalte].equals(spielfeld[zeile + i][spalte]) && !spielfeld[zeile + i][spalte].equals(" ")){
+            if(feld.height > zeile+i && zeile+i >= 0){ // && length > spalte+i && spalte+i >= 0) {
+                if(feld.get(zeile, spalte).equals(feld.get(zeile+i, spalte)) && !feld.get(zeile+i, spalte).equals(" ")){
 
                     counterV++;
                     if(counterV==4){
@@ -99,60 +82,12 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
 
 
-//    private boolean vertikal() {
-//        int counter = 0;
-//        String leer = " ";
-//
-//        for(int spalte = 0; spalte < 7; spalte++) {
-//            for(int reihe = 5; reihe >= 0; reihe--) {
-//                if(!leer.equals(spielfeld[reihe][spalte])) {
-//                    leer = spielfeld[reihe][spalte];
-//                    counter = 1;
-//                } else counter++;
-//
-//                if((counter == 4) && (!leer.equals(" "))) {
-//                    return true;
-//                }
-//            }
-//            counter = 0;
-//            leer = " ";
-//        }
-//        return false;
-//    }
-
-
-
-
-//    private boolean vertikal(int x, int y){
-//
-//        boolean returnwert = false;
-//        if(x + 3 < spielfeld.length) {
-//            if(spielfeld[x][y].equals(spielfeld[x+1][y]) && spielfeld[x+1][y].equals(spielfeld[x+2][y]) && spielfeld[x+2][y].equals(spielfeld[x+3][y])){
-//                returnwert = true;
-//            }
-//        }
-//        return returnwert;
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Test ob schraeg gewonnen
     //unten links nach oben rechts
     private boolean schraeg1(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(height > zeile-i & zeile-i >= 0 & length > spalte+i & spalte+i >= 0) {
-                if (spielfeld[zeile][spalte].equals(spielfeld[zeile - i][spalte + i])) {
+            if(feld.height > zeile-i & zeile-i >= 0 & feld.length > spalte+i & spalte+i >= 0) {
+                if (feld.get(zeile, spalte).equals(feld.get(zeile-i, spalte+i))) {
                     //  if(height > zeile-i && zeile-i >= 0 && spielfeld[zeile][spalte].equals(spielfeld[zeile - i][spalte + i]) && !spielfeld[zeile - i][spalte + i].equals(" ")){
 
                     counterS1++;
@@ -172,8 +107,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     //oben links nach unten rechts
     private boolean schraeg2(int zeile, int spalte){
         for (int i = -3; i<=3; i++){
-            if(height > zeile+i & zeile+i >= 0 & length > spalte+i & spalte+i >= 0){
-                 if(spielfeld[zeile][spalte].equals(spielfeld[zeile + i][spalte + i])){
+            if(feld.height > zeile+i & zeile+i >= 0 & feld.length > spalte+i & spalte+i >= 0){
+                 if(feld.get(zeile, spalte).equals(feld.get(zeile+i, spalte+i))){
                     //if (!spielfeld[zeile + i][spalte + i].equals(" ")){
                     counterS2++;
                     if(counterS2==4){
@@ -195,7 +130,15 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
     //Spielstart
     void start() {
+        //Scanner scan = new Scanner(System.in);
         System.out.println("Willkommen zu VierGewinnt");
+
+        System.out.println("Wie groß soll das Spielfeld sein?");
+        System.out.println("Breite des Feldes:");
+        int newLength = Integer.parseInt(scan.nextLine());
+        System.out.println("Höhe des Feldes:");
+        int newHeight = Integer.parseInt(scan.nextLine());
+        feld = new Spielfeld(newHeight, newLength);
 
         //Spielernamen und -menschlichkeit abfragen
         System.out.println("Wie ist dein Name?");
@@ -208,6 +151,7 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             int spielertyp = Integer.parseInt(scan.nextLine());
             if (spielertyp == 0) {
                 spieler2 = new Spieler("COMPUTER", false);
+                computerSpielt = true;
                 again = false;
             } else if (spielertyp == 1) {
                 System.out.println("Wie heißt du, Spieler 2?");
@@ -219,24 +163,26 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
         }
             gamerunning = true;
-            spielfeld = new String[height][length];
-            for (int i = 0; i < spielfeld.length; i++) {
-                for(int j = 0; j < spielfeld[i].length; j++){
-                    spielfeld[i][j] = " ";
-                }
-            }
-            draw();
+//            spielfeld = new String[feld.height][feld.length];
+//            for (int i = 0; i < feld.length; i++) {
+//                for(int j = 0; j < feld[i].length; j++){
+//                    feld[i][j] = " ";
+//                }
+//            }
+            feld.draw();
             spiellaeuft(spieler1);
     }
 
     private void spiellaeuft(Spieler aktuellerSpieler){
         while(gamerunning){
+            System.out.println();
             System.out.println("Spieler " + aktuellerSpieler.getName() + " ist dran:");
             if(aktuellerSpieler.equals(spieler1)){
                 spielzug(spieler1);
                 durchgang();
                 if(won){
                     gamerunning=false;
+                    System.out.println();
                     System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du hast im " + anzahlDurchgange +". Durchgang gewonnen!");
                 } else {
                     aktuellerSpieler=spieler2;
@@ -246,6 +192,7 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
                 spielzug(spieler2);
                 if(won){
                     gamerunning=false;
+                    System.out.println();
                     System.out.println("Glückwunsch " + aktuellerSpieler.getName() + ", du hast im " + anzahlDurchgange +". Durchgang gewonnen!");
                 } else {
                     aktuellerSpieler = spieler1;
@@ -254,20 +201,20 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
         }
     }
 
-    String signatur;
+    private String signatur;
     @Override
     public void spielstein(Spieler aktuellerSpieler, int spalte) {
         signatur = "Spieler: " + aktuellerSpieler.getName() + "; " + "Spalte: " + (spalte+1) + "\n";
-        int x = spielfeld.length-1; //letzte Zeile wird zuerst betrachtet
+        int x = feld.height-1; //letzte Zeile wird zuerst betrachtet
 
         while(x>=0){
-            if (spielfeld[x][spalte].equals(" ")){  //wenn das Feld leer ist, kann man Spielstein setzen
+            if (feld.get(x, spalte).equals(" ")){  //wenn das Feld leer ist, kann man Spielstein setzen
                 if (aktuellerSpieler.equals(spieler1)) {
-                    spielfeld[x][spalte] = "X";
+                    feld.set(x, spalte, "X");
                     break;
                 }
                 else{
-                    spielfeld[x][spalte] = "O";
+                    feld.set(x, spalte, "O");
                     break;
                 }
             }
@@ -277,19 +224,48 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
         if (x < 0) {
             System.out.println("Diese Spalte ist schon voll."); //andere "falsche" Eingaben auch noch abfangen
         } else {
-            draw();
+            feld.draw();
+            gewonnen(x, spalte);
+        }
+    }
+
+    //spielzug fuer computer
+    @Override
+    public void spielsteinCOMP(Spieler aktuellerSpieler, int spalte) {
+        signatur = "Spieler: " + spieler2.getName() + "; " + "Spalte: " + (spalte+1) + "\n";
+        int x = feld.height-1; //letzte Zeile wird zuerst betrachtet
+
+        while(x>=0){
+            if (feld.get(x, spalte).equals(" ")){//wenn das Feld leer ist, kann man Spielstein setzen
+                if(aktuellerSpieler.equals(spieler2)) {
+                    feld.set(x, spalte, "O");
+                    break;
+                }
+            }
+            x--;
+        }
+
+        if (x < 0) {
+            System.out.println("Diese Spalte ist schon voll."); //andere "falsche" Eingaben auch noch abfangen
+        } else {
+            feld.draw();
             gewonnen(x, spalte);
         }
     }
 
 
-
     @Override
     public void spielzug(Spieler aktuellerSpieler) {
-        System.out.println("In welche Spalte willst du den Stein setzen?");
-        int spalte = scan.nextInt();
-        spielstein(aktuellerSpieler, spalte - 1);
-        addSpielzug();
+        if (computerSpielt) {
+            int spalte = (int) (Math.random()%feld.length);
+            spielsteinCOMP(aktuellerSpieler, spalte);
+            addSpielzug();
+        } else {
+            System.out.println("In welche Spalte willst du den Stein setzen?");
+            int spalte = scan.nextInt();
+            spielstein(aktuellerSpieler, spalte - 1);
+            addSpielzug();
+        }
     }
 
 
