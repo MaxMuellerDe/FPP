@@ -37,7 +37,7 @@ public abstract class Spiel {
     public abstract void spielzug(Spieler aktuellerSpieler);
     public abstract void durchgang();
     public abstract void spielstein(Spieler aktuellerSpieler, int spalte);
-    public abstract void spielsteinCOMP(Spieler aktuellerSpieler, int spalte);
+    //public abstract void spielsteinCOMP(Spieler aktuellerSpieler, int spalte);
 
 }
 

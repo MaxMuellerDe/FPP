@@ -8,6 +8,7 @@ class Spielfeld {
         // for (String[] strings : spielfeld) {
         //    System.out.println(Arrays.toString(strings));
         //}
+
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < length; j++) {
                 System.out.print(" | ");
