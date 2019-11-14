@@ -196,6 +196,8 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
             }
         }
         if(unentschieden){
+            feld.draw();
+            System.out.println();
             System.out.println("Es ist unentschieden!");
             System.exit(0);
         }
