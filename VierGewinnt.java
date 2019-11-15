@@ -93,9 +93,15 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 //        } else {
         if (computerSpielt && aktuellerSpieler.equals(spieler2)){
             int spalte = (int) (Math.random()*feld.length)%feld.length;
-            System.out.println("COMPUTER setzt den Stein in Spalte " + (spalte+1) + ".");
-            spielstein(aktuellerSpieler, spalte);
-            addSpielzug();
+            if(spalteVoll){
+                spielstein(aktuellerSpieler, spalte);
+            }
+            else{
+                System.out.println("COMPUTER setzt den Stein in Spalte " + (spalte+1) + ".");
+                spielstein(aktuellerSpieler, spalte);
+                addSpielzug();
+            }
+
         }
         else {
             System.out.println("In welche Spalte willst du den Stein setzen?");
@@ -110,8 +116,10 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
 
     private String signatur;
+    private boolean spalteVoll;
     @Override
     public void spielstein(Spieler aktuellerSpieler, int spalte) {
+        spalteVoll = false;
        // boolean done = true;
         signatur = "Spieler: " + aktuellerSpieler.getName() + "; z" + "Spalte: " + (spalte+1) + "\n";
         int x = feld.height-1; //letzte Zeile wird zuerst betrachtet
@@ -131,8 +139,15 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
         }
         unentschieden();
         if (x < 0) {
-            System.out.println("Diese Spalte ist schon voll.");
-            spielzug(aktuellerSpieler);
+            spalteVoll=true;
+            if(computerSpielt && aktuellerSpieler.equals(spieler2)){
+                spielzug(aktuellerSpieler);
+            }
+            else{
+                System.out.println("Diese Spalte ist schon voll.");
+                spielzug(aktuellerSpieler);
+            }
+
         } else {
             feld.draw();
             gewonnen(x, spalte);
@@ -333,6 +348,9 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
     public void durchgang() {
         anzahlDurchgange++;
     }
+
+
+    public void spielstein(Spieler aktuellerSpieler, int spalte, int zeile){}
 
 
 
