@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-public class VierGewinnt {
-
-}
-=======
 import java.util.*;
 public class VierGewinnt extends Spiel implements Protokollierbar {
 
@@ -361,4 +356,3 @@ public class VierGewinnt extends Spiel implements Protokollierbar {
 
 
 }//end class
->>>>>>> Alle-Klassen,-Viergewinnt
