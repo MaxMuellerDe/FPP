@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Hauptprogramm",
+            "request": "launch",
+            "mainClass": "Hauptprogramm",
+            "projectName": "FPP_b5a1d698"
+        }
+    ]
+}
