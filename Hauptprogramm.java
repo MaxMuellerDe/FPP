@@ -1,8 +1,8 @@
 import java.util.Scanner;
 public class Hauptprogramm {
     public static void main(String[] args){
-        Scanner scan = new Scanner(System.in);
-
+        try( Scanner scan = new Scanner(System.in);){
+       
         VierGewinnt vierGewinntSpiel = new VierGewinnt();
         Chomp chompSpiel = new Chomp();
 
@@ -20,6 +20,7 @@ public class Hauptprogramm {
         else {
             System.exit(0);
         }
+    }
     //System.out.println(Protokollierbar.protokoll);
 
     }//end main
