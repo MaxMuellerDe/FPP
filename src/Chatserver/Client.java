@@ -15,10 +15,11 @@ public class Client {
 
             System.out.println("What do you want to say?");
 
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true); //autoflush - sonst werden Daten nicht gesendet
+            PrintWriter writer = new PrintWriter(socket.getOutputStream()); //, true     autoflush - sonst werden Daten nicht gesendet
             //Daten werden an Server gesendet
 
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            InputStream in =  socket.getInputStream();
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(in));
             //System.in liest 1 Byte at a time; wir wollen keine Bytes -> InputStreamReader - nimmt Bytestream und gibt einen Characterstream zurueck
             //wir wollen nicht 1 Character at time, sondern einen gesamten String -> BufferedReader - liest gesamten String at a time
 
@@ -29,6 +30,8 @@ public class Client {
 
             writer.write(toServer+ "\n");
             writer.flush();
+
+
 
             String str; //userInput.readLine(); //liest den eingegeben String; wartet, bis der User etwas eingibt
 
