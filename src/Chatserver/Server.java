@@ -1,46 +1,42 @@
 package Chatserver;
 
-import java.net.*;
 import java.io.*;
+import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Server{
     public static void main(String[] args){ //throws IOException (entweder das oder try-catch block)
 
+        ExecutorService executor = Executors.newFixedThreadPool(20); //damit der Server nur 20 Verbindungen maximal annimmt
 
-        try{
+        ServerSocket serverSocket;
+
+        try {
+            serverSocket = new ServerSocket(9999); //Portnummer ab bestimmter Zahl (4000 oder so) frei wählbar
             System.out.println("Server started.");
             System.out.println("Waiting for Clients...");
-            ServerSocket serverSocket = new ServerSocket(9999); //Portnummer ab bestimmter Zahl (4000 oder so) frei wählbar
-            Socket socket = serverSocket.accept(); //Server wartet, dass sich ein Client verbindet und "akzeptiert" ihn dann
-            //wenn Connection bekommt, returned es ein Socket-Objekt
-            System.out.println("Connection successfull!");
 
-            //Streams
+            while (true) {
+                try {
 
-            OutputStream out = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(out);
+                    Socket socket = serverSocket.accept(); //Server wartet, dass sich ein Client verbindet und "akzeptiert" ihn dann
+                    //wenn Connection bekommt, returned es ein Socket-Objekt
+                    System.out.println("Connection successfull!");
 
-            InputStream in = socket.getInputStream();
-            BufferedReader userinput = new BufferedReader(new InputStreamReader(in)); //identisch zu Client, aber dort etwas kuerzer
+                    executor.execute(new MultipleClients(socket));
 
-
-            String str;
-
-            while((str = userinput.readLine()) != null){
-                writer.write(str + "\n");
-                writer.flush();
-                System.out.println("Client: " + str); //Solang Nachrichten empfangen, bis Client nichts mehr sagt
-            }
-
-            writer.close();
-            userinput.close(); //am Ende Reader und Writer schliessen
-
-        }
-        catch (Exception e){ //um IO Exceptions zu haendeln
-            e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }//end while
+        } catch (IOException e1) { //um IO Exceptions zu haendeln
+            e1.printStackTrace();
         }
 
+    }//end main
+}//end server
 
 
 
@@ -59,5 +55,3 @@ public class Server{
 //        prWr.println("Hallo zurück!");
 //        prWr.flush();
 
-    }//end main
-}//end server
