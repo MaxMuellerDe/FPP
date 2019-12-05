@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Client",
+            "request": "launch",
+            "mainClass": "Chatserver.Client",
+            "projectName": "FortgeschrittenesProgrammierpraktikum_46b835c2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Server",
+            "request": "launch",
+            "mainClass": "Chatserver.Server",
+            "projectName": "FortgeschrittenesProgrammierpraktikum_46b835c2"
+        }
+    ]
+}
