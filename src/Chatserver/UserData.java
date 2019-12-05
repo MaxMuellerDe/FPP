@@ -1,7 +1,7 @@
 package Chatserver;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.*;
+
 public class UserData {
 
 	private static UserData instance = new UserData();

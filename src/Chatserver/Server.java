@@ -37,21 +37,3 @@ public class Server{
 
     }//end main
 }//end server
-
-
-
-//        ServerSocket serverSocket = new ServerSocket(4999);
-//        Socket socket = serverSocket.accept();
-//
-//        System.out.println("Client connected.");
-//
-//        InputStreamReader in = new InputStreamReader(socket.getInputStream());
-//        BufferedReader bufferedReader = new BufferedReader(in);
-//
-//        String string = bufferedReader.readLine();
-//        System.out.println("Client sagt: " + string);
-//
-//        PrintWriter prWr = new PrintWriter(socket.getOutputStream()); //Statt PrintWriter DataInputStream?
-//        prWr.println("Hallo zurück!");
-//        prWr.flush();
-
