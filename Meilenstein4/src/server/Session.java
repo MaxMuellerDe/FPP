@@ -35,7 +35,7 @@ public class Session {
 //                stop = true;
 				// Richtiges Passwort und Nutzer war nicht eingeloggt
 				if (passwort.equals(current_client.getPassword()) && !current_client.isLoggedin()) {
-					send_message("Willkommen zurück " + benutzername, "111", this.client);
+					send_message("Willkommen zurï¿½ck " + benutzername, "111", this.client);
 
 					// Socket aktualisieren
 					current_client.setClient(this.client);
@@ -60,8 +60,8 @@ public class Session {
 		// Schleife ist vollstÃ¤ndig durchgelaufen und es gab keinen Benutzernamenmatch
 		// oder es ist noch niemand registriert--> Registrierung
 		if ((i == listsize) || clients.isEmpty()) { // && !stop
-			send_message("Willkommen auf dem Server!", "111", this.client);
-			ClientNode newclient = new ClientNode(this.client, benutzername, passwort, true);
+			send_message("Willkommen auf dem Server!", "0", this.client);
+			ClientNode newclient = new ClientNode(this.client, benutzername, passwort, true, false);
 			clients.add(newclient);
 			failed = false;
 			serverobj.getServerLog().printOutput("USER\tNeue Registrierung von " + benutzername);
@@ -88,6 +88,16 @@ public class Session {
 		out.write(message);
 		out.newLine();
 		out.flush();
+	}
+	
+	void send_private(String message, String code, String reciever) throws IOException{
+		int listsize = clients.size();
+		for (int i = 0; i < listsize; i++) {
+			ClientNode current_client = clients.get(i);
+			if (current_client.isLoggedin()&&current_client.getName().equals(reciever)) {
+				send_message(message, code, current_client.getClient());
+			}
+		}
 	}
 
 	void message_all_clients(String message, String code) throws IOException {
@@ -120,7 +130,7 @@ public class Session {
 	String[] get_message() throws IOException {
 		if (client != null) {
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			return new String[] { in.readLine(), in.readLine() };
+			return new String[] { in.readLine(), in.readLine(), in.readLine() };
 		} else {
 			client_logout(client);
 			return null;
@@ -131,7 +141,6 @@ public class Session {
 	ArrayList<String> returnClientList() {
 		int listsize = clients.size();
 		ArrayList<String> clientsArray = new ArrayList<String>();
-		int x = 0;
 		for (int i = 0; i < listsize; i++) {
 			ClientNode current_client = clients.get(i);
 			if (current_client.isLoggedin()) {

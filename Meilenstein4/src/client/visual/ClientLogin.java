@@ -98,10 +98,11 @@ public class ClientLogin extends JFrame implements ActionListener {
 		}
 	}
 //TODO: Enter ?
+//TODO: Fehlermeldung ungültiger Login
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (tF_user.getText().equals("") || new String(tF_pass.getPassword()).equals("")) {
-			JOptionPane.showMessageDialog(this, "Fehler. Benutzername und Passwort d�rfen nicht leer sein.", "Fehler!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Fehler. Benutzername und Passwort dürfen nicht leer sein.", "Fehler!", JOptionPane.ERROR_MESSAGE);
 		} else {
 			clientobj.login(tF_user.getText(), new String(tF_pass.getPassword()));
 		}

@@ -1,9 +1,8 @@
 package server;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 
-import javax.swing.UIManager;
+import java.net.ServerSocket;
 
 import server.visual.ServerLog;
 

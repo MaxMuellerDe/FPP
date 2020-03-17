@@ -8,13 +8,22 @@ public class ClientNode{
     private Socket client;
     private String name;
     private String password;
-    private boolean loggedin;
+    private boolean loggedin, ingame;
 
-    ClientNode(Socket client, String name, String password, boolean loggedin){
+    ClientNode(Socket client, String name, String password, boolean loggedin, boolean ingame){
         this.client = client;
         this.name = name;
         this.password = password;
         this.loggedin = loggedin;
+        this.ingame=ingame;
+    }
+    
+    public void setInGame(boolean ingame) {
+    	this.ingame=ingame;
+    }
+    
+    public boolean getInGame() {
+    	return ingame;
     }
 
     public void setName(String name) {

@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +23,10 @@ import client.Client;
 
 public class ClientWindow extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Client clientobj;
 	private JPanel contentPane;
 	private JTextArea tA_Clients;
@@ -32,13 +38,20 @@ public class ClientWindow extends JFrame implements ActionListener {
 
 	public ClientWindow(Client clientobj) {
 		this.clientobj = clientobj;
-		setTitle("Chat");
+		setTitle(clientobj.getUsername());
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(400, 300, 800, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				clientobj.logout();
+				dispose();
+		      }
+		});
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.7);
@@ -96,6 +109,7 @@ public class ClientWindow extends JFrame implements ActionListener {
 		gbc_button_Senden.gridx = 2;
 		gbc_button_Senden.gridy = 0;
 		panel.add(button_Senden, gbc_button_Senden);
+		contentPane.getRootPane().setDefaultButton(button_Senden);
 
 		button_Logout = new JButton("Logout");
 		button_Logout.addActionListener(this);

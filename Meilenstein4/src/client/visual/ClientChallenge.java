@@ -7,20 +7,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import client.Futtern;
+import client.TicTacToe;
+import client.VierGewinnt;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -40,9 +42,11 @@ public class ClientChallenge extends JDialog implements ActionListener {
 	private JLabel lblNewLabel_1;
 	private JSpinner spinner_height;
 	private Client clientobj;
+	private String opponent;
 
 	public ClientChallenge(Client clientobj) {
 		this.clientobj = clientobj;
+		ArrayList<String> clientList = new ArrayList<String>(clientobj.clients);
 		setTitle("Spieler herausfordern");
 		setBounds(100, 100, 450, 258);
 		getContentPane().setLayout(new BorderLayout());
@@ -55,7 +59,7 @@ public class ClientChallenge extends JDialog implements ActionListener {
 		gbl_contentPanel.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			lblWhleDeinenGegner = new JLabel("W\u00E4hle deinen Gegner:");
+			lblWhleDeinenGegner = new JLabel("Wähle deinen Gegner:");
 			lblWhleDeinenGegner
 					.setFont(lblWhleDeinenGegner.getFont().deriveFont(lblWhleDeinenGegner.getFont().getSize() + 1f));
 			lblWhleDeinenGegner.setHorizontalAlignment(SwingConstants.CENTER);
@@ -74,7 +78,6 @@ public class ClientChallenge extends JDialog implements ActionListener {
 		{
 			comboBox = new JComboBox<String>();
 			if (clientobj.clients.size() > 1) {
-				ArrayList<String> clientList = new ArrayList<String>(clientobj.clients);
 				clientList.remove(clientobj.getUsername());
 				comboBox.setModel(new DefaultComboBoxModel<String>(new Vector<String>(clientList)));
 			}
@@ -93,7 +96,7 @@ public class ClientChallenge extends JDialog implements ActionListener {
 		contentPanel.add(lblWhleDasSpiel, gbc_lblWhleDasSpiel);
 		{
 			comboBox_1 = new JComboBox();
-			comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Vier gewinnt", "Futtern"}));
+			comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Vier gewinnt", "Futtern", "TicTacToe"}));
 			GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 			gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
 			gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
@@ -114,7 +117,7 @@ public class ClientChallenge extends JDialog implements ActionListener {
 		}
 		{
 			spinner_width = new JSpinner();
-			spinner_width.setModel(new SpinnerNumberModel(5, 4, 20, 1));
+			spinner_width.setModel(new SpinnerNumberModel(5, 4, 9, 1));
 			GridBagConstraints gbc_spinner_width = new GridBagConstraints();
 			gbc_spinner_width.insets = new Insets(0, 0, 5, 0);
 			gbc_spinner_width.gridx = 1;
@@ -134,7 +137,7 @@ public class ClientChallenge extends JDialog implements ActionListener {
 		}
 		{
 			spinner_height = new JSpinner();
-			spinner_height.setModel(new SpinnerNumberModel(5, 4, 20, 1));
+			spinner_height.setModel(new SpinnerNumberModel(5, 4, 9, 1));
 			GridBagConstraints gbc_spinner_height = new GridBagConstraints();
 			gbc_spinner_height.gridx = 1;
 			gbc_spinner_height.gridy = 3;
@@ -152,16 +155,48 @@ public class ClientChallenge extends JDialog implements ActionListener {
 			}
 		}
 	}
-
+//TODO: Add Game Opener 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
+		int listsize = clientobj.clients.size();
+		for (int i = 0; i < listsize; i++) {
+			if(clientobj.clients.get(i).equals((String)comboBox.getSelectedItem())) {
+				opponent=clientobj.clients.get(i);
+			}
+		}
+		
 		if (comboBox_1.getSelectedIndex() == 0) {
 			// Vier gewinnt
+			//VierGewinnt spiel=new VierGewinnt((String)spinner_width.getValue(),(String)spinner_height.getValue(),clientobj, opponent);
+			//spiel.start();
+			try {
+				clientobj.send_private_message("c 0"+(String)spinner_width.getValue().toString()+(String)spinner_height.getValue().toString(), "4", opponent);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			dispose();
-			ClientGame cg = new ClientGame((int) spinner_width.getValue(), (int) spinner_height.getValue());
-			cg.setVisible(true);
-		} else {
+
+		} else if (comboBox_1.getSelectedIndex()==1){
 			// Futtern
+			try {
+				clientobj.send_private_message("c 1"+spinner_width.getValue().toString()+spinner_height.getValue().toString(), "4", opponent);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			dispose();
+
+		} else if(comboBox_1.getSelectedIndex()==2) {
+			//Tic Tac Toe
+			try {
+				clientobj.send_private_message("c 2", "4", opponent);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			dispose();
+
 		}
 	}
 }

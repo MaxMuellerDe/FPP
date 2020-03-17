@@ -26,6 +26,7 @@ public class Client {
 	private String user;
 	private MessageListener messages;
 	public ArrayList<String> clients;
+	public TicTacToe spiel2=null;
 
 	public Client() {
 		clientobj = this;
@@ -74,11 +75,24 @@ public class Client {
 		}
 	}
 
-	private void send_server_message(String message, String code) throws IOException {
+	public void send_server_message(String message, String code) throws IOException {
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()));
 		out.write(code);
 		out.newLine();
 		out.write(message);
+		out.newLine();
+		out.write("test");
+		out.newLine();
+		out.flush();
+	}
+	
+	public void send_private_message(String message, String code, String reciever) throws IOException {
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()));
+		out.write(code);
+		out.newLine();
+		out.write(message);
+		out.newLine();
+		out.write(reciever);
 		out.newLine();
 		out.flush();
 	}
@@ -86,11 +100,23 @@ public class Client {
 	public void sendMessage(String s) {
 		try {
 			if (server != null) {
+				if(s.charAt(0)=='@') {
+					if(s.contains(" ")){
+				          int firstSpace = s.indexOf(" ");
+				          String reciever= s.substring(1, firstSpace);
+				          send_private_message(s.substring(firstSpace+1, s.length()), "4", reciever);
+					}
+				}else {				
 				send_server_message(s, "2");
+				}
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Fehler. Nicht mit dem Server verbunden.", "Fehler!", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void sendCoord(int x, int y, String opponent) {
+		
 	}
 
 	public void connectToServer() {
@@ -109,6 +135,20 @@ public class Client {
 		messages.start();
 	}
 
+	public void createTicTacToe(String opponent, boolean turn) {
+		TicTacToe spiel2=this.spiel2;
+		spiel2=new TicTacToe(clientobj, opponent, turn);
+		spiel2.start();
+	}
+	
+	public void update(int x, int y) {
+		TicTacToe spiel2=this.spiel2;
+		clientWindow.updateTextArea("Stufe 1");
+		if(spiel2!=null) {
+			spiel2.update(x, y);
+		}
+	}
+	
 	void deleteClient(String newClient) {
 		clients.remove(newClient);
 		clientWindow.updateClientList();

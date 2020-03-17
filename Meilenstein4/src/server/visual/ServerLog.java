@@ -3,7 +3,8 @@ package server.visual;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +20,10 @@ import server.Server;
 
 public class ServerLog extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextArea tA_Clients;
 	private JTextArea tA_Serverlog;
@@ -34,6 +39,12 @@ public class ServerLog extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				server.shutdown();
+		      }
+		});
 		
 		button_shutdown = new JButton("Shutdown");
 		button_shutdown.addActionListener(this);

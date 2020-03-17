@@ -32,9 +32,9 @@ public class ServerThread extends Thread {
 			if (success) {
 				session.send_message("", "8", client);
 				serverobj.getServerLog().printOutput(benutzername + " hat sich angemeldet!");
-				// Nachricht über Anmeldung an alle anderen Nutzer
+				// Nachricht [ber Anmeldung an alle anderen Nutzer
 				session.message_all_clients_except_self(benutzername + " hat sich angemeldet");
-				// Update für GUI des eigenen Clients
+				// Update fï¿½r GUI des eigenen Clients
 				session.update_all_active_clients();
 				// Nachricht an alle anderen Clients zum Update der GUI
 				session.message_all_clients(benutzername, "5");
@@ -50,6 +50,7 @@ public class ServerThread extends Thread {
 				String[] input = session.get_message();
 				System.out.println(input[0]);
 				System.out.println(input[1]);
+				System.out.println(input[2]);
 				if (input[0].equals("3")) {
 					session.client_logout(client);
 					serverobj.getServerLog().printOutput(benutzername + " hat die Verbindung getrennt!");
@@ -62,6 +63,18 @@ public class ServerThread extends Thread {
 				} else if (input[0].equals("2")) {
 					serverobj.getServerLog().printOutput(benutzername + ": " + input[1]);
 					session.message_all_clients(benutzername + ": " + input[1], "0");
+				} else if (input[0].equals("4")) {
+					if(input[1].substring(0,1).equals("c")) {
+						int firstSpace=input[1].indexOf(" ");
+						session.send_private(benutzername+input[1].substring(firstSpace,input[1].length()), "1", input[2]);
+					}else if(input[1].substring(0,1).equals("g")) {
+						int firstSpace=input[1].indexOf(" ");
+						session.send_private(benutzername+input[1].substring(firstSpace,input[1].length()), "2", input[2]);
+					}else if(input[1].substring(0,1).equals("z")) {
+						session.send_private(input[1].substring(1, input[1].length()), "3", input[2]);
+					}else {
+						session.send_private("(privat) "+ benutzername+": "+input[1], "0", input[2]);
+					}
 				}
 			}
 			client.close();
