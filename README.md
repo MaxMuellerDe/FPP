@@ -1,2 +1,2 @@
 # FPP
-Lies mich besser doch nicht. 
+Projekt im Bachelorstudium Informatik
